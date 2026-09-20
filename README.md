@@ -2,29 +2,32 @@
 
 Expo app for the React Native API Integration task. It talks to [ReqRes](https://reqres.in) for login, register, user profile, and paginated products.
 
+**GitHub:** https://github.com/JOTHSHANA/React-native-interview
+
 ## Setup
 
-1. Install Node.js, then install **Expo Go** on your phone (SDK 57).
-2. In this folder:
+1. Clone the repo and install dependencies:
 
 ```bash
+git clone https://github.com/JOTHSHANA/React-native-interview.git
+cd React-native-interview
 npm install
 ```
 
-3. Copy `.env.example` to `.env` and add the ReqRes API key:
+2. Copy `.env.example` to `.env` and add the ReqRes API key:
 
 ```
 EXPO_PUBLIC_API_BASE_URL=https://reqres.in
 EXPO_PUBLIC_API_KEY=your_reqres_api_key
 ```
 
-4. Start the app:
+3. Start the app:
 
 ```bash
 npx expo start
 ```
 
-5. Scan the QR code with Expo Go (Android) or the Camera app (iPhone).
+4. Scan the QR code with Expo Go (Android) or the Camera app (iPhone).
 
 If the phone cannot reach your PC on Wi-Fi:
 

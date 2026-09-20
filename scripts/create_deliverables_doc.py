@@ -7,7 +7,7 @@ from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
 OUTPUT = Path(__file__).resolve().parents[1] / "ReqRes_App_Deliverables.docx"
-DRIVE_PLACEHOLDER = "PASTE YOUR GOOGLE DRIVE ZIP LINK HERE"
+GITHUB_URL = "https://github.com/JOTHSHANA/React-native-interview"
 
 
 def set_run_font(run, name="Calibri", size=11, bold=False, color=None):
@@ -97,7 +97,7 @@ def main():
     set_run_font(run, size=13, bold=True, color=(107, 102, 128))
     subtitle.paragraph_format.space_after = Pt(16)
 
-    # Drive link box
+    # GitHub source box
     table = doc.add_table(rows=2, cols=1)
     table.autofit = True
     hdr = table.cell(0, 0)
@@ -105,14 +105,14 @@ def main():
     shade_cell(hdr, "5B4BFF")
     shade_cell(body, "EEEDFF")
     p = hdr.paragraphs[0]
-    r = p.add_run("SOURCE CODE ZIP  —  Google Drive link")
+    r = p.add_run("SOURCE CODE  —  GitHub repository")
     set_run_font(r, size=11, bold=True, color=(255, 255, 255))
     p = body.paragraphs[0]
-    r = p.add_run(DRIVE_PLACEHOLDER)
+    r = p.add_run(GITHUB_URL)
     set_run_font(r, size=12, bold=True, color=(44, 31, 168))
     p2 = body.add_paragraph()
     r = p2.add_run(
-        "Upload the project zip to Google Drive, set access to Anyone with the link, then replace the line above with the URL."
+        "Clone this repository. Copy .env.example to .env and add the ReqRes API key. Do not commit .env."
     )
     set_run_font(r, size=10, color=(107, 102, 128))
     doc.add_paragraph()
@@ -145,7 +145,7 @@ def main():
     add_heading_custom(doc, "Deliverable 1 — Complete React Native source code", 13)
     add_body(
         doc,
-        "The zip contains the full Expo project: App.js, index.js, package.json, app.json, .env.example, README.md, and the src/ folder. Install with npm install and run with npx expo start. Do not commit .env; the real API key stays in a local .env file.",
+        "The full Expo project is on GitHub. It includes App.js, index.js, package.json, app.json, .env.example, README.md, and the src/ folder. Clone the repo, run npm install, then npx expo start. The real API key stays in a local .env file and is not in the repository.",
     )
     add_code(
         doc,
@@ -223,8 +223,15 @@ def main():
     )
 
     add_heading_custom(doc, "4. How to run", 16)
+    add_body(doc, "Clone from GitHub")
+    add_code(
+        doc,
+        "git clone https://github.com/JOTHSHANA/React-native-interview.git\n"
+        "cd React-native-interview\nnpm install\n"
+        "# copy .env.example to .env and add EXPO_PUBLIC_API_KEY",
+    )
     add_body(doc, "Phone (Expo Go)")
-    add_code(doc, "npm install\n# create .env with EXPO_PUBLIC_API_KEY\nnpx expo start\n# or: npx expo start --tunnel")
+    add_code(doc, "npx expo start\n# or: npx expo start --tunnel")
     add_body(doc, "Laptop browser")
     add_code(doc, "npx expo start --web")
 
@@ -266,10 +273,10 @@ def main():
     for item in notes:
         add_bullet(doc, item)
 
-    add_heading_custom(doc, "7. Zip contents to upload", 16)
+    add_heading_custom(doc, "7. Source code location", 16)
     add_body(
         doc,
-        "Zip the project folder. Exclude node_modules, .expo, and .env (keep .env.example). After uploading to Drive, paste the share link in the purple box at the top of this document.",
+        "Source code is hosted on GitHub (no zip file): https://github.com/JOTHSHANA/React-native-interview",
     )
 
     footer = doc.add_paragraph()
@@ -278,8 +285,13 @@ def main():
     )
     set_run_font(run, size=9, color=(107, 102, 128))
 
-    doc.save(OUTPUT)
-    print(OUTPUT)
+    try:
+        doc.save(OUTPUT)
+        print(OUTPUT)
+    except PermissionError:
+        fallback = OUTPUT.with_name("ReqRes_App_Deliverables_github.docx")
+        doc.save(fallback)
+        print(fallback)
 
 
 if __name__ == "__main__":
